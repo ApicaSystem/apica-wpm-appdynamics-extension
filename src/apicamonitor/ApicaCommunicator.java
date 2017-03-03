@@ -137,7 +137,7 @@ public class ApicaCommunicator {
                             metrics.put(metricName + "value", Integer.parseInt(json.get("value").toString()));
                         }
                     } catch (NumberFormatException e) {
-                        logger.error("getChecks(): Error parsing metric value 'VALUE' for " + metricName + ". Message: " + e.getMessage());
+                        logger.error("getChecks(): Error parsing metric value 'VALUE' for " + metricName + ". Message: " + e.getMessage(), e);
                     }
 
                     //SEVERITY
@@ -162,9 +162,9 @@ public class ApicaCommunicator {
                 }
 
             } catch (ParseException e) {
-                logger.error("getChecks(): JSON Parsing error: " + e.getMessage());
+                logger.error("getChecks(): JSON Parsing error: " + e.getMessage(), e);
             } catch (Throwable e) {
-                logger.error("getChecks(): JSON Unexpected exception: " + e.getMessage());
+                logger.error("getChecks(): JSON Unexpected exception: " + e.getMessage(), e);
                 e.printStackTrace();
             }
 
@@ -172,9 +172,9 @@ public class ApicaCommunicator {
             Header[] responseHeaders = response.getAllHeaders();
             //getLimits(metrics, responseHeaders);
         } catch (IOException e1) {
-            logger.error("getChecks(): IOException: " + e1.getMessage());
+            logger.error("getChecks(): IOException: " + e1.getMessage(), e1);
         } catch (Throwable t) {
-            logger.error("getChecks(): Unexpected exception: " + t.getMessage());
+            logger.error("getChecks(): Unexpected exception: " + t.getMessage(), t);
         }
 
 
