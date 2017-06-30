@@ -15,10 +15,12 @@ import org.apache.commons.io.IOUtils;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
@@ -53,7 +55,7 @@ public class ApicaCommunicator {
     @SuppressWarnings("rawtypes")
     private void getChecks(Map<String, Integer> metrics) {
         try {
-            HttpClient httpclient = new DefaultHttpClient();
+            HttpClient httpclient = getHttpClient();
             UsernamePasswordCredentials creds = new UsernamePasswordCredentials(username, password);
             HttpGet httpget = new HttpGet(baseApiUrl + "/checks");
             httpget.addHeader(BasicScheme.authenticate(creds, "US-ASCII", false));
@@ -178,5 +180,21 @@ public class ApicaCommunicator {
         }
 
 
+    }
+
+    private HttpClient getHttpClient() {
+        HttpClient httpclient = new DefaultHttpClient();
+
+        String appDynamicsProxyHostProp = System.getProperty("appdynamics.http.proxyHost");
+        String appDynamicsProxyPortProp = System.getProperty("appdynamics.http.proxyPort");
+
+        if (appDynamicsProxyHostProp != null && appDynamicsProxyPortProp != null) {
+            String proxyHost = appDynamicsProxyHostProp;
+            int proxyPort = Integer.parseInt(appDynamicsProxyPortProp);
+            HttpHost proxy = new HttpHost(proxyHost, proxyPort, HttpHost.DEFAULT_SCHEME_NAME);
+            httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        }
+
+        return httpclient;
     }
 }
