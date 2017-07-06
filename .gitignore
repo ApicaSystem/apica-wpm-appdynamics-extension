@@ -4,3 +4,6 @@ dist/
 dist/*
 apicalog.log
 nbproject/private/*
+out/
+.idea/
+*.iml
