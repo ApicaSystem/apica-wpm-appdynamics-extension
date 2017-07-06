@@ -53,9 +53,7 @@ public class ApicaMonitor extends AManagedMonitor {
     HashMap<Integer, String> checkResultTimeStamps = new HashMap<>();
     
     // Set from an argument to the program.
-    private String username = "";
-    // Set from an argument to the program.
-    private String password = "";
+    private String authTicket = "";
     // Set from an argument to the program.
     private String baseApiUrl = "";
     // Set from an argument to the program.
@@ -65,21 +63,20 @@ public class ApicaMonitor extends AManagedMonitor {
 
     /**
      * For testing purpose is Main() executed. To see if connection works, 
-     * run this java file alone with arguments: Username, Password, URI.
+     * run this java file alone with arguments: AuthTicket, URI.
      *
      * Prints all metric names and their value from one round of REST calls to
      * StdOut.
      */
     public static void main(String[] args) throws ParseException {
 
-        if (args.length != 3) {
-            System.err.println("3 arguments needed: username, password, baseApiUrl");
+        if (args.length != 2) {
+            System.err.println("2 arguments needed: authTicket & baseApiUrl");
             return;
         }
 
-        String username = args[0];
-        String password = args[1];
-        String baseApiUrl = args[2];
+        String authTicket = args[0];
+        String baseApiUrl = args[1];
 
         ApicaMonitor pm = new ApicaMonitor();
         pm.logger = Logger.getLogger(ApicaMonitor.class);
@@ -92,8 +89,7 @@ public class ApicaMonitor extends AManagedMonitor {
         // In this case you probably want to write to stdout, so remove those comments.
         Map<String, String> taskArgs;
         taskArgs = new HashMap<String, String>();
-        taskArgs.put("Username", username);
-        taskArgs.put("Password", password);
+        taskArgs.put("AuthTicket", authTicket);
         taskArgs.put("BaseApiUrl", baseApiUrl);
         try {
             pm.execute(taskArgs, null);
@@ -121,14 +117,13 @@ public class ApicaMonitor extends AManagedMonitor {
         logger = Logger.getLogger(ApicaMonitor.class);
         metrics = new HashMap<String, Integer>();
 
-        if (!taskArguments.containsKey("Username") || !taskArguments.containsKey("Password")) {
-            logger.error("monitor.xml must contain task arguments 'Username', 'Password' and 'BaseApiUrl'"
+        if (!taskArguments.containsKey("AuthTicket") || !taskArguments.containsKey("BaseApiUrl")) {
+            logger.error("monitor.xml must contain task arguments 'AuthTicket' and 'BaseApiUrl'"
                     + " Terminating Monitor.");
             return null;
         }
 
-        username = taskArguments.get("Username");
-        password = taskArguments.get("Password");
+        authTicket = taskArguments.get("AuthTicket");
         baseApiUrl = taskArguments.get("BaseApiUrl");
 
         // setting the custom metric path, if there is one in monitor.xml
@@ -148,7 +143,7 @@ public class ApicaMonitor extends AManagedMonitor {
         }
             
 
-        apicaCommunicator = new ApicaCommunicator(username, password, baseApiUrl, checkResultTimeStamps, logger);
+        apicaCommunicator = new ApicaCommunicator(authTicket, baseApiUrl, checkResultTimeStamps, logger);
 
         if (!useLoopingProcess) {
             if (!useTimestampDiffCache){

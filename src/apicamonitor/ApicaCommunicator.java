@@ -32,13 +32,12 @@ import org.json.simple.parser.ParseException;
 
 public class ApicaCommunicator {
 
-    private String username;
-    private String password;
+    private String authTicket;
     private String baseApiUrl;
     private Logger logger;
     HashMap<Integer, String> checkResultTimeStamps;
 
-    public ApicaCommunicator(String username, String password, String baseApiUrl, HashMap<Integer, String> checkResultTimeStamps, Logger logger) {
+    public ApicaCommunicator(String authTicket, String baseApiUrl, HashMap<Integer, String> checkResultTimeStamps, Logger logger) {
         // DEBUG: System.out.println("Initialized ApicaCommunicator() !");
 
         this.checkResultTimeStamps = checkResultTimeStamps;
@@ -56,9 +55,7 @@ public class ApicaCommunicator {
     private void getChecks(Map<String, Integer> metrics) {
         try {
             HttpClient httpclient = getHttpClient();
-            UsernamePasswordCredentials creds = new UsernamePasswordCredentials(username, password);
-            HttpGet httpget = new HttpGet(baseApiUrl + "/checks");
-            httpget.addHeader(BasicScheme.authenticate(creds, "US-ASCII", false));
+            HttpGet httpget = new HttpGet(baseApiUrl + "/checks?auth_ticket=" + authTicket);
             httpget.addHeader("Accept-Charset", "UTF-8");
             HttpResponse response;
             response = httpclient.execute(httpget);
