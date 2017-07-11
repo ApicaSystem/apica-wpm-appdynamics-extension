@@ -55,6 +55,7 @@ public class ApicaCommunicator {
     private void getChecks(Map<String, Integer> metrics) {
         try {
             HttpClient httpclient = getHttpClient();
+            // changed access to auth_ticket instead of username/pwd basic auth
             HttpGet httpget = new HttpGet(baseApiUrl + "/checks?auth_ticket=" + authTicket);
             httpget.addHeader("Accept-Charset", "UTF-8");
             HttpResponse response;
