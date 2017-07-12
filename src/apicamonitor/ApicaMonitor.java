@@ -80,8 +80,7 @@ public class ApicaMonitor extends AManagedMonitor {
 
         ApicaMonitor pm = new ApicaMonitor();
         pm.logger = Logger.getLogger(ApicaMonitor.class);
-        pm.username = username;
-        pm.password = password;
+        pm.authTicket = authTicket;
         pm.baseApiUrl = baseApiUrl;
         pm.checkResultTimeStamps = new HashMap<>();
 
@@ -99,7 +98,7 @@ public class ApicaMonitor extends AManagedMonitor {
 
         // Debug Option 2. Run the communicator and output to SdtOut.
         /*
-         ApicaCommunicator apicaCommunicator = new ApicaCommunicator(username, password, baseApiUrl, Logger.getLogger(ApicaMonitor.class));
+         ApicaCommunicator apicaCommunicator = new ApicaCommunicator(authTicket, baseApiUrl, Logger.getLogger(ApicaMonitor.class));
          Map<String, Integer> metrics = new HashMap<String, Integer>();
          apicaCommunicator.populate(metrics);
 
