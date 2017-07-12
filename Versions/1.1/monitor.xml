@@ -21,8 +21,9 @@
 							BaseApiUrl: This is the URL to the API. Should end with a slash.
                 		-->
                         <argument name="AuthTicket" is-required="true" default-value="{replace this with apica api auth_ticket uuid}"/>
+						
 						<!-- Do not change manually unless you have on-prem installation -->
-                        <argument name="BaseApiUrl" is-required="true" default-value="http://api-wpm.apicasystem.com/v3"/>
+                        <argument name="BaseApiUrl" is-required="true" default-value="https://api-wpm.apicasystem.com/v3"/>
                         
                         <!-- CONFIGURE METRIC PATH
                      		You can change the metric path where to store the checks and their values under.
