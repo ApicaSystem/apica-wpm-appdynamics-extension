@@ -41,7 +41,8 @@ public class ApicaCommunicator {
         // DEBUG: System.out.println("Initialized ApicaCommunicator() !");
 
         this.checkResultTimeStamps = checkResultTimeStamps;
-        this.authTicket = authTicket;
+        this.username = username;
+        this.password = password;
         this.baseApiUrl = baseApiUrl;
         this.logger = logger;
     }
